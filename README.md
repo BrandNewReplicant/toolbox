@@ -1,2 +1,2 @@
-# myConfigs
-My preffered settings for text editors, code style and related configs
+# Yury Nikiforov's preffered configurations for:
+1. EditorConfig
