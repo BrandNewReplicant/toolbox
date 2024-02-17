@@ -1,36 +1,31 @@
 [*]
-end_of_line = lf
-insert_final_newline = true
+indent_style             = space
+indent_size              = 2
+end_of_line              = lf
+insert_final_newline     = true
 trim_trailing_whitespace = true
+max_line_length          = 80
 
 [*.sh]
-indent_style = space
-indent_size = 2
-shell_variant = posix
-binary_next_line = true
+shell_variant      = posix
+binary_next_line   = true
 switch_case_indent = true
-space_redirects = true
-keep_padding  = true
+space_redirects    = true
+keep_padding       = true
 function_next_line = true
-never_split = true
+never_split        = true
 
 [*.py]
-indent_style = space
 indent_size = 4
-max_line_length = 120
-charset = utf-8
+charset     = utf-8
 
 [*.js]
-indent_style = space
-indent_size = 2
-max_line_length = 120
 charset = utf-8
 
 [*.{yml,yaml}]
-indent_style = space
-indent_size = 2
 
 [*.json]
-indent_style = space
-indent_size = 2
 charset = utf-8
+
+[*.md]
+trim_trailing_whitespace = false
