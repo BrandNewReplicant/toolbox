@@ -16,3 +16,6 @@
 
 ## Containerized development:
 1. Codespaces
+
+## Python:
+1. Poetry
