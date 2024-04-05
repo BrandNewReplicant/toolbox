@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "kamen"
+version = "0.1.0"
+description = ""
+authors = ["BrandNewReplicant <brand_new_replicant@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ruff = "^0.3.5"
+pandas = "^2.2.1"
+polars = "^0.20.18"
+postgres = "^4.0"
+jupyter = "^1.0.0"
+elasticsearch = "^8.13.0"
+sqlite4 = "^0.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
