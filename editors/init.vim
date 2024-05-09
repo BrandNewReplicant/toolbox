@@ -4,7 +4,7 @@ set ignorecase
 set smartcase
 set incsearch
 set autowrite
-set hidden	
+set hidden
 set mouse=a
 set hls
 set number
@@ -12,6 +12,15 @@ set relativenumber
 set smartindent
 set cindent
 set expandtab
+set tabstop=2
+set shiftwidth=2
+set cuc cul
 set omnifunc=syntaxcomplete#Complete
-set cul cuc
 set ai
+set list
+set lcs+=space:·
+set lcs+=eol:^
+set lcs+=tab:--
+set lcs+=trail:!
+set lcs+=extends:>
+set lcs+=precedes:<
