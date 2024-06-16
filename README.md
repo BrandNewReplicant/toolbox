@@ -2,7 +2,7 @@
 
 ## Editors:
 1. Overall EditorConfig
-2. vanilla Neovim
+2. vanilla Neovim - VimScript and Lua files, LSP to be added later
 3. JetBrains IDEs
 4. Visual Studio Code
 
@@ -11,11 +11,3 @@
 2. Windows Terminal
 3. Windows Subsystem for Linux (WSL)
 
-## Linux:
-1. apt
-
-## Containerized development:
-1. Codespaces
-
-## Python:
-1. Poetry
