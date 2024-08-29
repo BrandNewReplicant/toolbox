@@ -19,7 +19,7 @@ set omnifunc=syntaxcomplete#Complete
 set ai
 set list
 set lcs+=space:·
-set lcs+=eol:^
+set lcs+=eol:$
 set lcs+=tab:--
 set lcs+=trail:!
 set lcs+=extends:>
