@@ -1,15 +1,10 @@
 # Configuration files
 
-## Editors:
-1. Overall EditorConfig
-2. vanilla Neovim - VimScript and Lua files, LSP to be added later
-3. JetBrains IDEs
-4. Visual Studio Code
+## [Editors](editors):
+1. Jetbrains IDEs
+2. Vim and Neovim
 
-## Windows:
+## [Windows](windows):
 1. Winget
-2. Windows Terminal
-3. Windows Subsystem for Linux (WSL)
 
-## Tools:
-1. Shell Scripts
+## [Shell Scripts](shell_scripts):
