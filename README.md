@@ -11,3 +11,5 @@
 2. Windows Terminal
 3. Windows Subsystem for Linux (WSL)
 
+## Tools:
+1. Shell Scripts
