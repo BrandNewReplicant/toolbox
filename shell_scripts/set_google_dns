@@ -5,12 +5,12 @@
 ################################################################################
 
 ################################################################################
-# This is usually a symlonk, so it will be deleted
+# This is usually a symlink, so it will be deleted
 ################################################################################
 rm -f /etc/resolv.conf
 
 ################################################################################
-# Create a new resolv.conf file with Googles nameservers
+# Create a new resolv.conf file with Google nameservers
 ################################################################################
 cat << EOF > resolv.conf
 nameserver 8.8.8.8
