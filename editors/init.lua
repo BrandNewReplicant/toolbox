@@ -1,4 +1,6 @@
---[[ General settings --]]
+--[[
+General settings
+--]]
 vim.o.showcmd = true
 vim.o.showmatch = true
 vim.o.ignorecase = true
@@ -20,8 +22,46 @@ vim.wo.cursorline = true
 vim.bo.omnifunc = 'syntaxcomplete#Complete'
 vim.bo.autoindent = true
 vim.wo.list = true
---[[ IDE-like symbols --]]
+--[[
+IDE-like symbols
+--]]
 vim.o.listchars = 'space:·,eol:$,tab:>-,trail:·,extends:>,precedes:<'
---[[ LSPs 
-require('lsp_config') --]]
+--[[
+bash language server
+--]]
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'sh',
+  callback = function()
+    vim.lsp.start({
+      name = 'bash-language-server',
+      cmd = { 'bash-language-server', 'start' },
+    })
+  end,
+})
+--[[
+Python (Ruff) language server
+--]]
+require('lspconfig').ruff_lsp.setup {
+  init_options = {
+    settings = {
+      -- Any extra CLI arguments for `ruff` go here.
+      args = {},
+    }
+  }
+}
+--[[
+Go language server - not tested yet
+local lspconfig = require("lspconfig")
+lspconfig.gopls.setup({
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+      gofumpt = true,
+    },
+  },
+})
+--]]
 
