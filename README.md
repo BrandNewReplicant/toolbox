@@ -1,10 +1,11 @@
 # Configuration files
 
-## [Editors](editors):
-1. Jetbrains IDEs
-2. Vim and Neovim
+## [Editors](./editors)
 
-## [Windows](windows):
-1. Winget
+## [Fish shell](./fish)
 
-## [Shell Scripts](shell_scripts):
+## [Bash scripts](./shell_scripts)
+
+## [Windows](./windows)
+
+## [Wireshark](./wireshark)

@@ -1,3 +1,3 @@
 # Windows configuration files
 
-1. [Winget](settings.json): Windows Package Manager settings
+1. [Windows package manager settings](./settings.json)
