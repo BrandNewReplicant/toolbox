@@ -23,7 +23,7 @@ vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.list = false
 vim.opt.colorcolumn = "80"
-vim.o.listchars = "space:·,eol:$,tab:>-,trail:·,extends:>,precedes:<"
+vim.o.listchars = "space:·,eol:$,tab:>-,trail:·"
 
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
@@ -47,44 +47,71 @@ vim.api.nvim_set_keymap("i", "`", "``<Left>", { noremap = true })
 vim.api.nvim_set_keymap("i", "<", "<><Left>", { noremap = true })
 vim.api.nvim_set_keymap("i", "/*", "/**/<Left><Left>", { noremap = true })
 
-local lspconfig = require("lspconfig")
-
--- Shell
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "sh", "bash", "dash" },
-	callback = function()
-		vim.lsp.start({
-			name = "bash-language-server",
-			cmd = { "bash-language-server", "start" },
-		})
-	end,
+vim.diagnostic.enable = true
+vim.diagnostic.config({
+  virtual_lines = true,
 })
 
--- Python
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "py", "ipynb" },
-	callback = function()
-		vim.bo.shiftwidth = 4
-		vim.opt.colorcolumn = "88"
-	end,
-	lspconfig.ruff.setup({}),
+vim.lsp.config("*", {
+	capabilities = {
+		textDocument = {
+			semanticTokens = {
+				multilineTokenSupport = true,
+			},
+		},
+	},
 })
 
--- Go
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "go", "go.mod" },
-	callback = function()
-		vim.bo.expandtab = false
-	end,
-	lspconfig.gopls.setup({}),
+vim.lsp.config("ruff", {
+	init_options = {
+		settings = {
+			lineLength = 80,
+			organizeImports = true,
+			showSyntaxErrors = true,
+			configurationPreference = "editorOnly",
+			codeAction = {
+				disableRuleComment = {
+					enable = true,
+				},
+				fixViolation = {
+					enable = true,
+				},
+			},
+			lint = {
+				enable = true,
+				preview = true,
+			},
+			format = {
+				preview = true,
+			},
+		},
+	},
 })
 
--- C
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "c", "cpp", "c++", "h", "hpp", "h++" },
-	callback = function()
-		vim.bo.expandtab = false
-		vim.opt.colorcolumn = "80"
-	end,
-	lspconfig.clangd.setup({}),
+vim.lsp.enable("ruff")
+
+vim.lsp.config("gopls", {
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+		},
+	},
 })
+
+vim.lsp.enable("gopls")
+
+vim.lsp.config("clangd", {
+	cmd = { "clangd", "--background-index" },
+})
+
+vim.lsp.enable("clangd")
+
+vim.lsp.config("bashls", {
+	on_attach = on_attach,
+	filetypes = { "sh", "bash" },
+})
+
+vim.lsp.enable("bashls")
