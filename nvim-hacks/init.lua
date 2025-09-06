@@ -32,7 +32,7 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "80"
 
 -- COMPLETION
-vim.opt.syntax = on
+-- vim.opt.syntax = on
 vim.opt.completeopt = "menu,menuone,noselect,popup,fuzzy"
 vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
 vim.bo.omnifunc = 'v:lua.vim.treesitter.query.omnifunc'
@@ -60,14 +60,18 @@ vim.g.netrw_browse_split = 0
 -- INDENT
 vim.g.editorconfig = false
 vim.bo.smartindent = false
+vim.bo.autoindent = true
 vim.bo.cindent = true
 vim.bo.expandtab = true
 vim.bo.tabstop = 2
 vim.bo.shiftwidth = 0
-vim.bo.autoindent = true
 
 -- FONT 
 vim.cmd [[highlight Comment cterm=italic gui=italic]]
+
+-- SPELLING
+vim.opt.spell = true
+vim.opt.spelllang = { "en", "ru", "de" }
 
 -- SIMPLE COMPLETION 
 -- TODO: with tree-sitter
@@ -86,7 +90,6 @@ vim.diagnostic.enable = true
 vim.diagnostic.config({
   virtual_lines = true,
 })
-
 
 -- LANGUAGE SERVERS
 vim.lsp.config("*", {
@@ -162,8 +165,7 @@ vim.lsp.enable("clangd")
 vim.lsp.config("bashls", {
   cmd = { 'bash-language-server', 'start' },
   filetypes = { 'bash', 'sh' },
-  on_attach = on_attach,
-  filetypes = { "sh", "bash" },
+  on_attach = on_attach
 })
 
 vim.lsp.enable("bashls")
