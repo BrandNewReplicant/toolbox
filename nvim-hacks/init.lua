@@ -4,6 +4,8 @@ vim.opt.autowrite = true
 vim.opt.hidden = true
 vim.opt.confirm = true
 vim.opt.undofile = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 -- SEARCH
 vim.opt.hlsearch = false
@@ -29,12 +31,19 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = '80'
 
 -- COMPLETION
--- vim.opt.syntax = on
-vim.opt.completeopt = "menu,menuone,noselect,popup,fuzzy"
-vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
+vim.g.autocomplete = on
+vim.opt.syntax = on
+vim.opt.completeopt = { 
+  'menu', 
+  'menuone', 
+  'preview' , 
+  'popup', 
+  'noselect', 
+  'fuzzy' 
+}
 vim.bo.omnifunc = 'v:lua.vim.treesitter.query.omnifunc'
 
 -- LIST CHARACTERS 
@@ -48,9 +57,8 @@ vim.opt.listchars = {
 
 -- FOLDING
 vim.o.foldenable = true
-vim.o.foldlevel = 99
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 -- FILE TREE
 vim.g.netrw_liststyle = 3
@@ -69,30 +77,39 @@ vim.bo.shiftwidth = 0
 -- FONT 
 vim.cmd [[highlight Comment cterm=italic gui=italic]]
 
+-- KEYMAPS
+vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h', { noremap = true })
+vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j', { noremap = true })
+vim.keymap.set('t', '<A-k>', '<C-\\><C-N><C-w>k', { noremap = true })
+vim.keymap.set('t', '<A-l>', '<C-\\><C-N><C-w>l', { noremap = true })
+vim.keymap.set('i', '<A-h>', '<C-\\><C-N><C-w>h', { noremap = true })
+vim.keymap.set('i', '<A-j>', '<C-\\><C-N><C-w>j', { noremap = true })
+vim.keymap.set('i', '<A-k>', '<C-\\><C-N><C-w>k', { noremap = true })
+vim.keymap.set('i', '<A-l>', '<C-\\><C-N><C-w>l', { noremap = true })
+vim.keymap.set('n', '<A-h>', '<C-w>h', { noremap = true })
+vim.keymap.set('n', '<A-j>', '<C-w>j', { noremap = true })
+vim.keymap.set('n', '<A-k>', '<C-w>k', { noremap = true })
+vim.keymap.set('n', '<A-l>', '<C-w>l', { noremap = true })
+vim.keymap.set('t', '<C-R>', function()
+  local char = vim.fn.nr2char(vim.fn.getchar())
+  return '<C-\\><C-N>"' .. char .. 'pi'
+end, { noremap = true, expr = true })
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]],{noremap=true})
+vim.keymap.set('n', '<A-t>', ':10split | startinsert | term<CR>')
+
 -- SPELLING
 vim.opt.spell = true
-vim.opt.spelllang = { "en", "ru", "de" }
-
--- SIMPLE COMPLETION 
--- TODO: with tree-sitter
-vim.api.nvim_set_keymap("i", "(", "()<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "{", "{}<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "[", "[]<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", '"', '""<Left>', { noremap = true })
-vim.api.nvim_set_keymap("i", "'", "''<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "`", "``<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<", "<><Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "/*", "/**/<Left><Left>", { noremap = true })
+vim.opt.spelllang = { 'en', 'ru', 'de' }
 
 -- DIAGNOSTICS
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = 'yes'
 vim.diagnostic.enable = true
 vim.diagnostic.config({
   virtual_lines = true,
 })
 
 -- LANGUAGE SERVERS
-vim.lsp.config("*", {
+vim.lsp.config('*', {
   capabilities = {
     textDocument = {
       semanticTokens = {
@@ -103,7 +120,7 @@ vim.lsp.config("*", {
 })
 
 -- PYTHON
-vim.lsp.config("ruff", {
+vim.lsp.config('ruff', {
   cmd = { 'ruff', 'server' },
   filetypes = { 'python' },
   init_options = {
@@ -111,7 +128,7 @@ vim.lsp.config("ruff", {
       lineLength = 80,
       organizeImports = true,
       showSyntaxErrors = true,
-      configurationPreference = "editorOnly",
+      configurationPreference = 'editorOnly',
       codeAction = {
         disableRuleComment = {
           enable = true,
@@ -131,10 +148,10 @@ vim.lsp.config("ruff", {
   },
 })
 
-vim.lsp.enable("ruff")
+vim.lsp.enable('ruff')
 
 -- GO
-vim.lsp.config("gopls", {
+vim.lsp.config('gopls', {
   cmd = { 'gopls' },
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   settings = {
@@ -143,38 +160,39 @@ vim.lsp.config("gopls", {
         unusedparams = true,
       },
       staticcheck = true,
+      gofumpt = true,
     },
   },
 })
 
-vim.lsp.enable("gopls")
+vim.lsp.enable('gopls')
 
 -- C/C++
-vim.lsp.config("clangd", {
+vim.lsp.config('clangd', {
   filetypes = { 'c', 'cpp', 'cuda' },
   cmd = { 
-    "clangd", 
-    "--background-index",
-    "--clang-tidy",
+    'clangd', 
+    '--background-index',
+    '--clang-tidy',
   },
 })
 
-vim.lsp.enable("clangd")
+vim.lsp.enable('clangd')
 
 -- SHELL
-vim.lsp.config("bashls", {
+vim.lsp.config('bashls', {
   cmd = { 'bash-language-server', 'start' },
   filetypes = { 'bash', 'sh' },
   on_attach = on_attach
 })
 
-vim.lsp.enable("bashls")
+vim.lsp.enable('bashls')
 
 -- TREE-SITTER
 vim.treesitter.language.register('bash', { 'sh', 'zsh' })
-vim.treesitter.language.register('c', { 'cpp', 'c++' })
+vim.treesitter.language.register('c', { 'cpp', 'c++', 'cuda' })
 
-vim.api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd('FileType', {
   callback = function(ev)
     pcall(vim.treesitter.start, ev.buf)
   end
