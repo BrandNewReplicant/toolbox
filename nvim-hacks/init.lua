@@ -96,6 +96,7 @@ vim.keymap.set('t', '<C-R>', function()
 end, { noremap = true, expr = true })
 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]],{noremap=true})
 vim.keymap.set('n', '<A-t>', ':10split | startinsert | term<CR>')
+vim.keymap.set('n', '<A-f>', ':20Vex<CR>')
 
 -- SPELLING
 vim.opt.spell = true
