@@ -1,0 +1,22 @@
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if ! [[ $PATH =~ $HOME/.local/bin:$HOME/bin: ]]; then
+	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+if ! shopt -oq posix; then
+	. /usr/share/bash-completion/bash_completion
+fi
+
+. ~/.bash_profile
+
+if [ -z "$TMUX" ]; then
+	if tmux has-session -t default; then
+		tmux attach-session -t default
+	else
+		tmux new-session -s default
+	fi
+fi
