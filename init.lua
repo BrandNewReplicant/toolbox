@@ -47,7 +47,6 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 8
 vim.opt.softtabstop = 8
 vim.opt.shiftwidth = 0
-vim.cmd([[highlight Comment cterm=italic gui=italic]])
 vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h", { noremap = true })
 vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j", { noremap = true })
 vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k", { noremap = true })
@@ -96,6 +95,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		pcall(vim.treesitter.start, ev.buf)
 	end,
 })
+vim.api.nvim_set_hl(0, "Comment", { italic = true })
+-- LSP
 vim.lsp.config("*", {
 	root_markers = { ".git" },
 	capabilities = {
@@ -156,7 +157,7 @@ vim.lsp.config("gopls", {
 	},
 })
 vim.lsp.config("clangd", {
-	filetypes = { "c", "h", "cpp", "hpp", "cuda" },
+	filetypes = { "c", "h", "cuda" },
 	cmd = {
 		"clangd",
 		"--background-index",
@@ -169,9 +170,15 @@ vim.lsp.config("bashls", {
 	filetypes = { "bash", "sh" },
 	on_attach = on_attach,
 })
+vim.lsp.config("zls", {
+        cmd = { "zls" },
+        filetypes = { "zig", "zir" },
+        root_markers = { "build.zig" },
+})
 vim.lsp.enable({
 	"bashls",
 	"gopls",
 	"clangd",
 	"ruff",
+        "zls",
 })
