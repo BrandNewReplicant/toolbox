@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -x
+
+for file in bashrc bash_profile bash_aliases; do
+        home_file="$HOME/.$file"
+        if [[ -f "$home_file" ]]; then
+                if cmp -s "$file" "$home_file"; then
+                        continue
+                fi
+                cp "$home_file" "$home_file.bak"
+        fi
+        cp "$file" "$home_file"
+done
+
+nvim_d="$HOME/.config/nvim"
+if [[ ! -d "$nvim_d" ]]; then
+        mkdir -p "$nvim_d"
+        chmod 750 "$nvim_d"
+fi
+if [[ -f "$nvim_d/init.lua" ]]; then
+        if ! cmp -s init.lua "$nvim_d/init.lua"; then
+                cp "$nvim_d/init.lua" "$nvim_d/init.lua.bak"
+                cp init.lua "$nvim_d/init.lua"
+        fi
+else
+        cp init.lua "$nvim_d/init.lua"
+fi
+
+tmux_d="$HOME/.config/tmux"
+if [[ ! -d "$tmux_d" ]]; then
+        mkdir -p "$tmux_d"
+        chmod 750 "$tmux_d"
+fi
+if [[ -f "$tmux_d/tmux.conf" ]]; then
+        if ! cmp -s tmux.conf "$tmux_d/tmux.conf"; then
+                cp "$tmux_d/tmux.conf" "$tmux_d/tmux.conf.bak"
+                cp tmux.conf "$tmux_d/tmux.conf"
+        fi
+else
+        cp tmux.conf "$tmux_d/tmux.conf"
+fi

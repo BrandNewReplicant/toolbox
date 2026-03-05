@@ -11,7 +11,7 @@ if ! shopt -oq posix; then
 	. /usr/share/bash-completion/bash_completion
 fi
 
-. ~/.bash_profile
+. "$HOME/.bash_profile"
 
 if [ -z "$TMUX" ]; then
 	if tmux has-session -t default; then

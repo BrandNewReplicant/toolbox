@@ -1,9 +1,16 @@
-. ~/.bash_aliases
+. "$HOME/.bash_aliases"
 . /usr/share/fzf/shell/key-bindings.bash
+
 set -o vi
 shopt -s globstar
+shopt -s autocd
+shopt -s cdspell
+shopt -s dirspell
+
 export EDITOR=nvim
 export VISUAL=nvim
+export PAGER=less
+
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN

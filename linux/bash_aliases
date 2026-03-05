@@ -3,9 +3,10 @@ alias la='ls -al'
 alias vim='nvim'
 alias v='nvim'
 alias g='git'
-alias c='clear'
+alias c='clear -x'
 alias h='cd $HOME'
+alias open='xdg-open'
 
 function mcd {
-        mkdir -p "$@" && cd "$_"
+        mkdir -p "$@" && cd "$_" || return
 }

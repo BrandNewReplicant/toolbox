@@ -57,7 +57,8 @@ function download_ts_queries {
 }
 
 function main {
-        if ! command -v curl && ! command -v sed; then
+        if ! command -v curl >/dev/null 2>&1 \
+        && ! command -v sed >/dev/null 2>&1; then
                 exit 1
         fi
 	# link_sitters
