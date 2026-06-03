@@ -13,14 +13,14 @@ vim.opt.smartcase = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.showmatch = true
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 5
 vim.opt.pumheight = 5
 vim.opt.showtabline = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
-vim.g.autocomplete = on
+vim.opt.cursorcolumn = false
 vim.opt.syntax = on
 vim.opt.completeopt = {
 	"fuzzy",
@@ -29,7 +29,7 @@ vim.opt.completeopt = {
 	"preview",
 	"popup",
 	"noselect",
-        "noinsert",
+	"noinsert",
 }
 vim.bo.omnifunc = "v:lua.vim.treesitter.query.omnifunc"
 vim.o.foldenable = true
@@ -47,38 +47,36 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 8
 vim.opt.softtabstop = 8
 vim.opt.shiftwidth = 0
-vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h", { noremap = true })
-vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j", { noremap = true })
-vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k", { noremap = true })
-vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l", { noremap = true })
-vim.keymap.set("i", "<A-h>", "<C-\\><C-N><C-w>h", { noremap = true })
-vim.keymap.set("i", "<A-j>", "<C-\\><C-N><C-w>j", { noremap = true })
-vim.keymap.set("i", "<A-k>", "<C-\\><C-N><C-w>k", { noremap = true })
-vim.keymap.set("i", "<A-l>", "<C-\\><C-N><C-w>l", { noremap = true })
-vim.keymap.set("n", "<A-h>", "<C-w>h", { noremap = true })
-vim.keymap.set("n", "<A-j>", "<C-w>j", { noremap = true })
-vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true })
-vim.keymap.set("n", "<A-l>", "<C-w>l", { noremap = true })
+vim.keymap.set("n", "<Space>h", "<C-w>h", { noremap = true })
+vim.keymap.set("n", "<Space>j", "<C-w>j", { noremap = true })
+vim.keymap.set("n", "<Space>k", "<C-w>k", { noremap = true })
+vim.keymap.set("n", "<Space>l", "<C-w>l", { noremap = true })
+-- terminal
 vim.keymap.set("t", "<C-R>", function()
 	local char = vim.fn.nr2char(vim.fn.getchar())
-	return '<C-\\><C-N>"' .. char .. "pi"
+	return "<C-\\><C-N>\"" .. char .. "pi"
 end, { noremap = true, expr = true })
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 vim.keymap.set(
 	"n",
-	"<A-t>",
+	"<Space>t",
 	":10split | startinsert | term<CR>",
 	{ noremap = true }
 )
-vim.keymap.set("n", "<A-f>", ":20Vex<CR>", { noremap = true })
+vim.keymap.set("n", "<Space>f", ":20Vex<CR>", { noremap = true })
 vim.keymap.set("n", "<Space>e", vim.diagnostic.open_float)
--- SPELLING
+vim.keymap.set("n", "grf", function()
+	vim.lsp.buf.format()
+end)
+vim.keymap.set("n", "grk", function()
+	vim.lsp.buf.hover()
+end)
 vim.opt.spell = true
 vim.opt.spelllang = { "en", "ru", "de" }
--- DIAGNOSTICS
 vim.opt.signcolumn = "yes"
 vim.diagnostic.enable = true
 vim.diagnostic.config({
+	severity_sort = true,
 	virtual_lines = false,
 	virtual_text = false,
 	update_in_insert = false,
@@ -88,7 +86,7 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.treesitter.language.register("bash", { "sh", "zsh" })
-vim.treesitter.language.register("c", { "cpp", "c++", "cuda" })
+-- vim.treesitter.language.register("c", { "cpp", "c++", "cuda" })
 vim.treesitter.language.register("go", { "gomod", "gowork", "gotmpl" })
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
@@ -96,18 +94,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 vim.api.nvim_set_hl(0, "Comment", { italic = true })
--- LSP
-vim.lsp.config("*", {
-	root_markers = { ".git" },
-	capabilities = {
-		textDocument = {
-			semanticTokens = {
-				multilineTokenSupport = true,
-			},
-		},
-	},
-})
-vim.lsp.config("ruff", {
+vim.lsp.config["ruff"] = {
 	cmd = { "ruff", "server" },
 	filetypes = { "python" },
 	init_options = {
@@ -133,8 +120,8 @@ vim.lsp.config("ruff", {
 			},
 		},
 	},
-})
-vim.lsp.config("gopls", {
+}
+vim.lsp.config["gopls"] = {
 	root_markers = { "go.mod", "go.sum", "go.work" },
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -143,6 +130,7 @@ vim.lsp.config("gopls", {
 			analyses = {
 				unusedparams = true,
 				unreachable = true,
+				unusedvariable = true,
 				shadow = true,
 			},
 			staticcheck = true,
@@ -153,32 +141,72 @@ vim.lsp.config("gopls", {
 				test = true,
 				tidy = true,
 			},
+			symbolScope = "all",
+			usePlaceholders = true,
+			completeFunctionCalls = true,
+			hints = {
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				constantValues = true,
+				functionTypeParameters = true,
+				ignoredError = true,
+				parameterNames = true,
+				rangeVariableTypes = true,
+			},
 		},
 	},
-})
-vim.lsp.config("clangd", {
-	filetypes = { "c", "h", "cuda" },
+}
+vim.lsp.config["clangd"] = {
+	-- filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+	filetypes = { "c", "cpp" },
 	cmd = {
 		"clangd",
 		"--background-index",
 		"--clang-tidy",
 		"--suggest-missing-includes",
 	},
-})
-vim.lsp.config("bashls", {
+}
+vim.lsp.config["bashls"] = {
 	cmd = { "bash-language-server", "start" },
 	filetypes = { "bash", "sh" },
 	on_attach = on_attach,
-})
-vim.lsp.config("zls", {
-        cmd = { "zls" },
-        filetypes = { "zig", "zir" },
-        root_markers = { "build.zig" },
-})
+}
+vim.lsp.config["zls"] = {
+	cmd = { "zls" },
+	filetypes = { "zig", "zir" },
+	root_markers = { "build.zig", "zls.json" },
+	workspace_required = false,
+}
+vim.lsp.config["rust-analyzer"] = {
+	cmd = { "rust-analyzer" },
+	filetypes = { "rust" },
+	settings = {
+		["rust-analyzer"] = {
+			diagnostics = {
+				enable = true,
+			},
+			lens = {
+				debug = { enable = true },
+				enable = true,
+				implementations = { enable = true },
+				references = {
+					adt = { enable = true },
+					enumVariant = { enable = true },
+					method = { enable = true },
+					trait = { enable = true },
+				},
+				run = { enable = true },
+				updateTest = { enable = true },
+			},
+		},
+	},
+}
 vim.lsp.enable({
 	"bashls",
 	"gopls",
 	"clangd",
 	"ruff",
-        "zls",
+	"zls",
+	"rust-analyzer",
 })

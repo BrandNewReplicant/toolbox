@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-################################################################################
-# Add tree-sitter parsers to path recognised by Neovim
-# Requiremens:
-#   sed
-#   curl
-################################################################################
+langs=(
+        comment 
+        bash awk python sql
+        go zig cpp java rust
+        make cmake nginx dockerfile
+        json toml proto graphql
+        html html_tags xml css 
+        ecma javascript jsx typescript jsdoc 
+)
 
 function link_sitters {
 	local sitter link_parent link
@@ -22,18 +25,8 @@ function link_sitters {
 }
 
 function download_ts_queries {
-	local langs queries types url
-	langs=(
-                go python bash sql
-                make cmake cpp 
-                zig java rust 
-                javascript ecma jsx typescript jsdoc 
-                html html_tags xml css 
-                commonlisp scheme
-                json toml comment
-        )
+	local queries types url
 	types=(folds highlights indents injections locals)
-	# queries='/usr/share/nvim/runtime/queries/'
 	queries="$HOME/.config/nvim/queries"
         if pushd "$queries" >/dev/null 2>&1; then
                 for lang in "${langs[@]}"; do

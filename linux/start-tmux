@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if ! command -v tmux >/dev/null 2>&1; then
+        exit 1
+fi
+
+if tmux has-session -t DEFAULT; then
+        tmux attach-session -t DEFAULT
+else
+        tmux new-session -d -s DEFAULT
+        tmux rename-window -t DEFAULT:1 VIM
+        tmux send-keys -t DEFAULT:VIM 'nvim' Enter
+        tmux new-window -t DEFAULT:2 -n SHELL
+        tmux select-window -t DEFAULT:VIM
+        tmux attach-session -t DEFAULT
+fi

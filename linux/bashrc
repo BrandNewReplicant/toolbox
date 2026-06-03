@@ -12,11 +12,3 @@ if ! shopt -oq posix; then
 fi
 
 . "$HOME/.bash_profile"
-
-if [ -z "$TMUX" ]; then
-	if tmux has-session -t default; then
-		tmux attach-session -t default
-	else
-		tmux new-session -s default
-	fi
-fi
