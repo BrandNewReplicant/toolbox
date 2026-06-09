@@ -1,0 +1,37 @@
+{
+	"CompileFlags": {
+		"Add": [
+			"-Wall",
+			"-Werror",
+			"-Wpedantic",
+			"-Wextra"
+		],
+		"Remove": [
+			"-W"
+		],
+		"Compiler": "clang"
+	},
+	"Diagnostics": {
+		"ClangTidy": {
+			"Add": [
+				"*"
+			],
+			"Remove": [
+				"llvmlibc-restrict-system-libc-headers",
+				"altera-unroll-loops",
+				"cppcoreguidelines-init-variables",
+				"readability-isolate-declaration",
+				"readability-identifier-length",
+				"google-objc-function-naming"
+                                "Wc23-extensions"
+			]
+		}
+	},
+	"Index": {
+		"StandardLibrary": true,
+		"Background": "Build"
+	},
+	"Completion": {
+		"EnableSnippets": true
+	}
+}
